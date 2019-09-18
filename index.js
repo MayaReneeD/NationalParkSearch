@@ -11,6 +11,9 @@ function formatQueryParams(params) {
 }
 
 function displayResults(responseJson) {
+    if (responseJson.data.length == 0){
+        alert ("No results found. Please make sure you entered a valid state code")
+    }
   console.log(responseJson);
   $('#results-list').empty();
   for (let i=0; i<responseJson.data.length; i++) {
@@ -28,8 +31,8 @@ function displayResults(responseJson) {
 function getNationalParkInfo(query,limit=10) {
   const params = {
     api_key: apiKey,
-    q: query,
-    limit: limit-1,
+    stateCode: query,
+    limit: limit,
   };
   const queryString = formatQueryParams(params)
   const url = searchUrl + '?' + queryString;
@@ -44,7 +47,7 @@ function getNationalParkInfo(query,limit=10) {
     })
     .then(responseJson => displayResults(responseJson))
     .catch(err => {
-      $('#js-error-message').text(`Something went wrong: ${err.message}`);
+      alert ("Something went wrong. Please check input")
     });
 }
 
